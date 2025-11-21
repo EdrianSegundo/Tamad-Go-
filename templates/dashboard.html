@@ -1,0 +1,330 @@
+<html>
+<head>
+    <title>Task Manager & Pet</title>
+    <style>
+        body {
+            background-color: #3c7393;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 20px;
+        }
+        .pet-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px #aaa;
+            text-align: center;
+        }
+        .tasks-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px #aaa;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #3c7393;
+            padding-bottom: 15px;
+        }
+        h1 {
+            margin: 0;
+            color: #3c7393;
+        }
+        .logout-btn {
+            background-color: #e74c3c;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .logout-btn:hover {
+            background-color: #c0392b;
+        }
+        .pet-visual {
+            font-size: 80px;
+            margin: 20px 0;
+        }
+        .pet-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #3c7393;
+            margin-bottom: 20px;
+        }
+        .pet-stats {
+            text-align: left;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+            padding: 8px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+        .stat-label {
+            font-weight: bold;
+            color: #333;
+        }
+        .stat-value {
+            color: #3c7393;
+            font-weight: bold;
+        }
+        .stat-bar {
+            width: 100%;
+            height: 20px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+        .stat-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #27ae60, #2ecc71);
+            border-radius: 10px;
+        }
+        .health-critical .stat-bar-fill {
+            background: linear-gradient(90deg, #e74c3c, #c0392b);
+        }
+        .stress-high .stat-bar-fill {
+            background: linear-gradient(90deg, #f39c12, #e67e22);
+        }
+        .pet-status {
+            font-size: 18px;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .status-happy {
+            background: #d5f4e6;
+            color: #27ae60;
+        }
+        .status-sad {
+            background: #fdeef0;
+            color: #e74c3c;
+        }
+        .status-sick {
+            background: #fef5e7;
+            color: #f39c12;
+        }
+        .status-dead {
+            background: #f8f9fa;
+            color: #666;
+        }
+        .add-task-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        .add-task-form input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .add-task-form button {
+            background-color: #27ae60;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .add-task-form button:hover {
+            background-color: #229954;
+        }
+        .tasks-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .task-item {
+            background: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #3c7393;
+        }
+        .task-item.completed {
+            background: #e8f5e9;
+            border-left-color: #27ae60;
+        }
+        .task-item.completed .task-name {
+            text-decoration: line-through;
+            color: #999;
+        }
+        .task-content {
+            flex: 1;
+        }
+        .task-name {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .task-date {
+            font-size: 12px;
+            color: #999;
+        }
+        .task-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .task-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .complete-btn {
+            background-color: #3498db;
+            color: white;
+        }
+        .complete-btn:hover {
+            background-color: #2980b9;
+        }
+        .delete-btn {
+            background-color: #e74c3c;
+            color: white;
+        }
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+        .empty-message {
+            text-align: center;
+            color: #999;
+            padding: 40px 20px;
+            font-size: 16px;
+        }
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- PET SECTION -->
+        <div class="pet-section">
+            <h2 style="color: #3c7393; margin-top: 0;">Your Pet</h2>
+            
+            <div class="pet-visual">
+                {% if pet.status == "dead" %}
+                    ⚰️
+                {% elif pet.status == "sick" %}
+                    🤒
+                {% elif pet.status == "sad" %}
+                    😢
+                {% else %}
+                    😊
+                {% endif %}
+            </div>
+            
+            <div class="pet-name">{{ pet.name }}</div>
+            
+            <div class="pet-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Level</span>
+                    <span class="stat-value">{{ pet.level }}</span>
+                </div>
+                
+                <div class="stat-item">
+                    <span class="stat-label">Experience</span>
+                    <span class="stat-value">{{ pet.experience }}/50</span>
+                </div>
+                
+                <div class="stat-item {% if pet.health <= 30 %}health-critical{% endif %}">
+                    <span class="stat-label">Health</span>
+                    <span class="stat-value">{{ pet.health }}%</span>
+                    <div class="stat-bar">
+                        <div class="stat-bar-fill" style="width: {{ pet.health }}%"></div>
+                    </div>
+                </div>
+                
+                <div class="stat-item {% if pet.stress >= 50 %}stress-high{% endif %}">
+                    <span class="stat-label">Stress</span>
+                    <span class="stat-value">{{ pet.stress }}%</span>
+                    <div class="stat-bar">
+                        <div class="stat-bar-fill" style="width: {{ pet.stress }}%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="pet-status status-{{ pet.status }}">
+                Status: {{ pet.status|upper }}
+            </div>
+            
+            <a href="/stress_check" style="display: block; margin-top: 15px; background-color: #3498db; color: white; padding: 10px; border-radius: 5px; text-align: center; text-decoration: none; font-weight: bold;">
+                📋 Check Stress Level
+            </a>
+        </div>
+        
+        <!-- TASKS SECTION -->
+        <div class="tasks-section">
+            <div class="header">
+                <h1>📝 Tasks</h1>
+                <a href="/logout" class="logout-btn">Logout</a>
+            </div>
+            
+            <p style="color: #3c7393; margin-bottom: 20px;"><strong>Welcome, {{ user }}!</strong></p>
+            
+            <div class="add-task-form">
+                <form action="/add_task" method="POST" style="display: flex; width: 100%; gap: 10px;">
+                    <input type="text" name="task_name" placeholder="Add a new task..." required>
+                    <button type="submit">Add Task</button>
+                </form>
+            </div>
+            
+            {% if tasks %}
+                <ul class="tasks-list">
+                    {% for task in tasks %}
+                        <li class="task-item {% if task.completed %}completed{% endif %}">
+                            <div class="task-content">
+                                <div class="task-name">{{ task.name }}</div>
+                                <div class="task-date">Created: {{ task.created }}</div>
+                            </div>
+                            <div class="task-actions">
+                                <a href="/complete_task/{{ task.id }}" class="task-btn complete-btn">
+                                    {% if task.completed %}Undo{% else %}Done{% endif %}
+                                </a>
+                                <a href="/delete_task/{{ task.id }}" class="task-btn delete-btn" onclick="return confirm('Delete this task?')">Delete</a>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <div class="empty-message">
+                    No tasks yet. Add one to help your pet grow! 🚀
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,307 @@
+<html>
+<head>
+    <title>Stress Check-In</title>
+    <style>
+        body {
+            background-color: #3c7393;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px #aaa;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #3c7393;
+            padding-bottom: 20px;
+        }
+        h1 {
+            color: #3c7393;
+            margin: 0 0 10px 0;
+        }
+        .subtitle {
+            color: #666;
+            font-size: 14px;
+        }
+        .question-group {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #3c7393;
+        }
+        .question-text {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        .scale-container {
+            display: flex;
+            gap: 10px;
+            justify-content: space-around;
+            align-items: center;
+        }
+        .scale-label {
+            font-size: 12px;
+            color: #999;
+            text-align: center;
+            min-width: 60px;
+        }
+        .scale-label.first {
+            text-align: left;
+        }
+        .scale-label.last {
+            text-align: right;
+        }
+        .radio-group {
+            display: flex;
+            gap: 10px;
+            flex: 1;
+            justify-content: space-around;
+        }
+        .radio-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        .radio-option input[type="radio"] {
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+        }
+        .radio-option label {
+            cursor: pointer;
+            font-size: 12px;
+            color: #666;
+        }
+        .scale-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 11px;
+            color: #999;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .submit-btn:hover {
+            background-color: #229954;
+        }
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .back-link a {
+            color: #3c7393;
+            text-decoration: none;
+        }
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+        .info-box {
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #27ae60;
+        }
+        .info-box p {
+            margin: 0;
+            color: #2e7d32;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>😌 Stress Check-In</h1>
+            <p class="subtitle">Let us know how you're feeling today</p>
+        </div>
+        
+        <div class="info-box">
+            <p>📝 This quick 5-question assessment helps track your stress levels. Your pet will respond to your wellbeing!</p>
+        </div>
+        
+        <form action="/submit_stress" method="POST">
+            <!-- Question 1 -->
+            <div class="question-group">
+                <div class="question-text">1. How overwhelmed do you feel right now?</div>
+                <div class="scale-labels">
+                    <span>Not at all</span>
+                    <span>Extremely</span>
+                </div>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="q1_1" name="q1" value="1" required>
+                        <label for="q1_1">1</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q1_2" name="q1" value="2">
+                        <label for="q1_2">2</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q1_3" name="q1" value="3">
+                        <label for="q1_3">3</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q1_4" name="q1" value="4">
+                        <label for="q1_4">4</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q1_5" name="q1" value="5">
+                        <label for="q1_5">5</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Question 2 -->
+            <div class="question-group">
+                <div class="question-text">2. How would you rate your anxiety level?</div>
+                <div class="scale-labels">
+                    <span>Calm</span>
+                    <span>Anxious</span>
+                </div>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="q2_1" name="q2" value="1" required>
+                        <label for="q2_1">1</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q2_2" name="q2" value="2">
+                        <label for="q2_2">2</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q2_3" name="q2" value="3">
+                        <label for="q2_3">3</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q2_4" name="q2" value="4">
+                        <label for="q2_4">4</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q2_5" name="q2" value="5">
+                        <label for="q2_5">5</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Question 3 -->
+            <div class="question-group">
+                <div class="question-text">3. How is your sleep quality?</div>
+                <div class="scale-labels">
+                    <span>Excellent</span>
+                    <span>Poor</span>
+                </div>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="q3_1" name="q3" value="1" required>
+                        <label for="q3_1">1</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q3_2" name="q3" value="2">
+                        <label for="q3_2">2</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q3_3" name="q3" value="3">
+                        <label for="q3_3">3</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q3_4" name="q3" value="4">
+                        <label for="q3_4">4</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q3_5" name="q3" value="5">
+                        <label for="q3_5">5</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Question 4 -->
+            <div class="question-group">
+                <div class="question-text">4. How focused can you be on your tasks?</div>
+                <div class="scale-labels">
+                    <span>Very Focused</span>
+                    <span>Very Distracted</span>
+                </div>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="q4_1" name="q4" value="1" required>
+                        <label for="q4_1">1</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q4_2" name="q4" value="2">
+                        <label for="q4_2">2</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q4_3" name="q4" value="3">
+                        <label for="q4_3">3</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q4_4" name="q4" value="4">
+                        <label for="q4_4">4</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q4_5" name="q4" value="5">
+                        <label for="q4_5">5</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Question 5 -->
+            <div class="question-group">
+                <div class="question-text">5. How motivated are you today?</div>
+                <div class="scale-labels">
+                    <span>Very Motivated</span>
+                    <span>Not Motivated</span>
+                </div>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="q5_1" name="q5" value="1" required>
+                        <label for="q5_1">1</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q5_2" name="q5" value="2">
+                        <label for="q5_2">2</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q5_3" name="q5" value="3">
+                        <label for="q5_3">3</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q5_4" name="q5" value="4">
+                        <label for="q5_4">4</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="q5_5" name="q5" value="5">
+                        <label for="q5_5">5</label>
+                    </div>
+                </div>
+            </div>
+            
+            <button type="submit" class="submit-btn">Submit & Check Pet Status</button>
+        </form>
+        
+        <div class="back-link">
+            <a href="/dashboard">← Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>
