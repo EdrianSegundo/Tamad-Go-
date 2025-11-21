@@ -1,10 +1,49 @@
 <html>
-    <head>
-        <title>Homepage</title>
-    </head>
-    <body>
-        <h1>John Patrick Corpuz</h1>
-        <p>Tara na po mag lol</p>
-        <p>hule</p>
-    </body>
+<head>
+    <title>Login</title>
+    <style>
+        body {
+            background-color: #f0f4ff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 50px;
+        }
+        .box {
+            background: white;
+            padding: 20px;
+            width: 300px;
+            margin: auto;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #aaa;
+        }
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4C8BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #366DDC;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2>Login</h2>
+        <form action="/login" method="POST">
+            <input type="text" name="username" placeholder="Username" required><br>
+            <input type="password" name="password" placeholder="Password" required><br>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</body>
 </html>
