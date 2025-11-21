@@ -18,5 +18,16 @@
         "created": "2025-11-21 19:14:08",
         "last_updated": "2025-11-21 19:14:08",
         "status": "happy"
+    },
+    "edrian": {
+        "name": "Pou",
+        "level": 1,
+        "experience": 10,
+        "health": 100,
+        "stress": -5,
+        "created": "2025-11-21 17:58:38",
+        "last_updated": "2025-11-21 17:59:21",
+        "status": "happy",
+        "choice": 1
     }
 }

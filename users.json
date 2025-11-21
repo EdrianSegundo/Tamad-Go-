@@ -1,17 +1,22 @@
 {
     "edrian": {
-        "password": "1234"
+        "password": "1234",
+        "pet_choice": 1,
+        "pet_experience": 0
     },
     "admin": {
-        "password": "password"
+        "password": "password",
+        "pet_choice": 1,
+        "pet_experience": 0
     },
     "John": {
-        "password": "pass"
+        "password": "pass",
+        "pet_choice": 2,
+        "pet_experience": 0
     },
     "mileng": {
-        "password": "edrian"
-    },
-    "Rikkue": {
-        "password": "pass"
+        "password": "edrian",
+        "pet_choice": 3,
+        "pet_experience": 0
     }
 }
