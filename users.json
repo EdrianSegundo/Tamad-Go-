@@ -4,5 +4,8 @@
     },
     "admin": {
         "password": "password"
+    },
+    "John": {
+        "password": "pass"
     }
 }
