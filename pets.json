@@ -2,11 +2,21 @@
     "John": {
         "name": "Pou",
         "level": 1,
-        "experience": 5,
+        "experience": 30,
+        "health": 100,
+        "stress": 15,
+        "created": "2025-11-21 17:38:15",
+        "last_updated": "2025-11-21 19:10:31",
+        "status": "happy"
+    },
+    "Rikkue": {
+        "name": "Pou",
+        "level": 1,
+        "experience": 0,
         "health": 100,
         "stress": 0,
-        "created": "2025-11-21 17:38:15",
-        "last_updated": "2025-11-21 17:52:18",
+        "created": "2025-11-21 19:14:08",
+        "last_updated": "2025-11-21 19:14:08",
         "status": "happy"
     },
     "edrian": {
