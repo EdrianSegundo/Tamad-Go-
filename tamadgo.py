@@ -90,6 +90,23 @@ def complete_task_update_pet(username, on_time=True):
         save_pets(pets)
     return pet
 
+# ---------------- Pet Data Helper ----------------
+def load_user_data(username):
+    """Loads a single user's pet data, prioritizing pets.json for pet stats."""
+    pets = load_pets()
+    users = load_users()
+    
+    # Start with base user data (if needed, e.g., for pet_choice)
+    user_data = users.get(username, {})
+    
+    # Get the pet stats
+    pet_stats = pets.get(username, {})
+
+    # Combine them, prioritizing pet stats for pet details
+    user_data['pet'] = pet_stats 
+    
+    return user_data
+
 def update_pet_stress_from_questionnaire(username, stress_score):
     pets = load_pets()
     if username in pets:
@@ -146,11 +163,23 @@ def signup():
 def dashboard():
     if "username" not in session:
         return redirect(url_for("index"))
+    
     username = session["username"]
-    pet = initialize_pet(username)
-    tasks = load_tasks()
-    user_tasks = tasks.get(username, [])
-    return render_template("dashboard.html", user=username, tasks=user_tasks, pet=pet)
+    
+    # 1. Load user data using the new helper function
+    user_data = load_user_data(username)
+    pet = user_data.get("pet", {})
+    
+    # 2. Load all tasks, then filter for the current user
+    all_tasks = load_tasks()
+    user_tasks = all_tasks.get(username, [])
+    
+    # Sort tasks to show incomplete first, then completed.
+    user_tasks.sort(key=lambda t: (t.get('completed', False), t.get('created', '')))
+    
+    return render_template("dashboard.html", user=username, pet=pet, tasks=user_tasks)
+
+# IMPORTANT: Ensure you have removed the separate @app.route("/tasks") block if it still exists.
 
 @app.route("/save_pet", methods=["POST"])
 def save_pet():
@@ -238,6 +267,7 @@ def submit_stress():
     stress_score = max(0, min(100, int(stress_score)))
     pet = update_pet_stress_from_questionnaire(username, stress_score)
     return render_template("stress_result.html", stress_score=stress_score, pet=pet, user=username)
+
 
 # ---------------- Run App ----------------
 if __name__ == "__main__":

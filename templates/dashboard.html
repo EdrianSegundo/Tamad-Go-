@@ -1,92 +1,216 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Task Manager & Pet</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Profile - {{ user }}</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
     <style>
-        body { background-color: #3c7393; font-family: Arial, sans-serif; padding: 20px; }
-        .container { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 2fr; gap: 20px; }
-        .pet-section, .tasks-section { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 15px #aaa; text-align: center; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 2px solid #3c7393; padding-bottom: 15px; }
-        h1 { color: #3c7393; margin:0; }
-        .logout-btn { background-color: #e74c3c; color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; font-size: 14px; }
-        .logout-btn:hover { background-color: #c0392b; }
-        .pet-visual img { width: 150px; border-radius: 15px; margin: 20px 0; }
-        .pet-name { font-size: 24px; font-weight: bold; color: #3c7393; margin-bottom: 20px; }
-        .pet-selection img { width: 80px; cursor:pointer; border:2px solid transparent; border-radius:10px; margin:5px; }
-        .pet-selection img.selected { border:2px solid #27ae60; }
-        .edit-pet-btn, .save-pet-btn { margin-top:10px; background-color:#27ae60; color:white; padding:8px 15px; border:none; border-radius:5px; cursor:pointer; font-weight:bold; }
-        .edit-pet-btn:hover, .save-pet-btn:hover { background-color:#229954; }
-        .pet-stats { text-align: left; margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 8px; }
-        .stat-item { display:flex; justify-content: space-between; margin:10px 0; }
-        .tasks-section { display:flex; flex-direction:column; }
-        .add-task-form { display:flex; gap:10px; margin-bottom:30px; }
-        .add-task-form input { flex:1; padding:10px; border:1px solid #ddd; border-radius:5px; font-size:14px; }
-        .add-task-form button { background-color:#27ae60; color:white; padding:10px 20px; border:none; border-radius:5px; cursor:pointer; font-size:14px; }
-        .add-task-form button:hover { background-color:#229954; }
+        /* Base Styling */
+        body {
+            margin: 0; padding: 0; height: 100vh;
+            font-family: 'Lilita One', cursive; 
+            overflow: hidden; 
+            color: #FFFFFF; 
+        }
+        
+        .screen-container {
+    height: 100%; width: 100%;
+    /* 🛑 REPLACE THE radial-gradient LINE WITH THIS: */
+    background: url('/static/background.jpg') no-repeat center center fixed; 
+    background-size: cover; 
+    
+    display: flex; flex-direction: column; align-items: center;
+    padding-bottom: 60px; box-sizing: border-box;
+    overflow: hidden;
+}
+        /* Stats in White Box */
+        .user-stats {
+            text-align: center; 
+            padding-bottom: 15px; /* Space above the name */
+            line-height: 1.2;
+            z-index: 10;
+        }
+        .user-stats p {
+            font-size: 2em; 
+            margin: 0; 
+            color: #FFFFFF; 
+            /* Thinner Stroke: 3px */
+            -webkit-text-stroke: 3px #000000; 
+            text-stroke: 3px #000000; 
+        }
+
+        /* Main Profile Content - Key for Vertical Centering */
+        .profile-content {
+            flex-grow: 1; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            /* 🔥 Center content vertically in the available space 🔥 */
+            justify-content: center; 
+            width: 100%; 
+        }
+        
+        /* The White Box Background */
+        .pet-display-wrapper {
+            background: rgba(242, 234, 97, 0.9); 
+            padding: 40px 60px; 
+            border-radius: 20px; 
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            display: flex; 
+            flex-direction: column;
+            align-items: center; 
+            margin: 20px 0; /* Ensures vertical centering works smoothly */
+        }
+
+        .user-name {
+            font-size: 2.5em; 
+            margin: 0 0 15px 0; 
+            color: #ffffff; 
+            -webkit-text-stroke: 1px #000000; 
+            text-stroke: 3px #000000;
+        }
+        
+        /* 🔥 INCREASED IMAGE SIZE 🔥 */
+        .profile-picture-container {
+            width: 250px; /* Increased size */
+            height: 250px; /* Increased size */
+            border-radius: 50%; 
+            background-color: rgba(255, 255, 255, 0.7); 
+            display: flex; justify-content: center; align-items: center; 
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .profile-image {
+            width: 220px; /* Increased size */
+            height: 220px; /* Increased size */
+            border-radius: 50%; 
+            border: 8px solid rgba(255, 255, 255, 0.8); 
+            object-fit: cover;
+        }
+
+        /* --- Panel Styles (Unchanged) --- */
+        .side-panel {
+            position: fixed; top: 0; height: 100%; width: 80%; max-width: 350px; background: rgba(255, 255, 255, 0.95);
+            padding: 20px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); z-index: 900; transition: transform 0.3s ease-out;
+            overflow-y: auto; color: #333; font-family: Arial, sans-serif; box-sizing: border-box;
+        }
+        #profile-panel { left: 0; transform: translateX(-100%); }
+        #profile-panel.open { transform: translateX(0); }
+        #tasks-panel { right: 0; transform: translateX(100%); }
+        #tasks-panel.open { transform: translateX(0); }
+
+        /* Panel Content Styling */
+        .panel-header {
+            font-family: 'Lilita One', cursive; /* Updated Font */
+            color: #98C430; font-size: 1.8em; margin-bottom: 20px; border-bottom: 2px solid #ddd; padding-bottom: 10px; text-align: center;
+        }
+
+        /* Task List Styling */
         .tasks-list { list-style:none; padding:0; margin:0; }
-        .task-item { background:#f8f9fa; padding:15px; margin-bottom:10px; border-radius:5px; display:flex; justify-content:space-between; align-items:center; border-left:4px solid #3c7393; }
+        .task-item { background:#f0f0f0; padding:10px; margin-bottom:8px; border-radius:5px; display:flex; justify-content:space-between; align-items:center; border-left:4px solid #FDD835; }
         .task-item.completed { background:#e8f5e9; border-left-color:#27ae60; }
         .task-item.completed .task-name { text-decoration:line-through; color:#999; }
         .task-name { font-weight:bold; color:#333; }
-        .task-actions a { padding:6px 12px; border:none; border-radius:3px; cursor:pointer; font-size:12px; text-decoration:none; display:inline-block; }
+        .task-actions a { padding:4px 8px; border:none; border-radius:3px; cursor:pointer; font-size:12px; text-decoration:none; display:inline-block; margin-left: 5px;}
         .complete-btn { background-color:#3498db; color:white; }
-        .complete-btn:hover { background-color:#2980b9; }
         .delete-btn { background-color:#e74c3c; color:white; }
-        .delete-btn:hover { background-color:#c0392b; }
-        .empty-message { text-align:center; color:#999; padding:40px 20px; font-size:16px; }
-        @media(max-width:768px){.container{grid-template-columns:1fr;}}
+
+        /* Add Task Form */
+        .add-task-form { margin-bottom: 20px; }
+        .add-task-form form { display: flex; gap: 5px; }
+        .add-task-form input { flex-grow: 1; padding: 8px; border: 1px solid #ccc; border-radius: 5px; }
+        .add-task-form button { background-color: #98C430; color: white; border: none; padding: 8px 10px; border-radius: 5px; cursor: pointer; }
+
+        /* Bottom Nav */
+        .bottom-nav {
+            display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0;
+            width: 100%; height: 60px; background-color: #FDD835; box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2); z-index: 1000;
+        }
+        .nav-item {
+            display: flex; align-items: center; justify-content: center; text-decoration: none;
+            color: rgba(255, 255, 255, 0.7); transition: color 0.3s; flex: 1; height: 100%;
+        }
+        .nav-item i { font-size: 30px; }
+        .nav-item.active {
+            color: #FFFFFF; 
+            background-color: rgba(0, 0, 0, 0.05); 
+        }
+        
+        .save-pet-btn {
+            background-color:#98C430 !important;
+        }
+        
     </style>
 </head>
 <body>
-<div class="container">
-    <!-- PET SECTION -->
-    <div class="pet-section">
-        <h2>Your Pet</h2>
-        <!-- Main pet image -->
-        <div class="pet-visual">
-            <img id="main-pet" src="/static/pets/{{ pet.choice }}.jpg" alt="Your Pet">
-        </div>
-        <div class="pet-name">{{ pet.name }}</div>
-        <button class="edit-pet-btn" onclick="showPetSelection()">Edit Pet</button>
-
-        <!-- Pet selection menu -->
-        <div id="pet-selection-menu" style="display:none; margin-top:15px;">
-            <h3>Choose Your Pet</h3>
-            <div class="pet-selection">
-                <img src="/static/pets/1.jpg" id="pet1" onclick="selectPet(1)">
-                <img src="/static/pets/2.jpg" id="pet2" onclick="selectPet(2)">
-                <img src="/static/pets/3.jpg" id="pet3" onclick="selectPet(3)">
+    <div class="screen-container" onclick="closeAllPanels()">
+        
+        <main class="profile-content">
+            
+            <div class="pet-display-wrapper">
+                
+                <header class="user-stats">
+                    <p>LEVEL: {{ pet.level }}</p>
+                    <p>EXP: {{ pet.experience }}/50</p>
+                </header>
+                
+                <h1 class="user-name">{{ user }}</h1> 
+                
+                <div class="profile-picture-container">
+                    <img id="main-pet" src="/static/pets/{{ pet.choice }}.jpg" alt="Character Profile" class="profile-image">
+                </div>
             </div>
-            <button class="save-pet-btn" onclick="savePetChoice()">Save Pet</button>
-        </div>
+            <a href="{{ url_for('stress_check') }}" style="display:block; margin-top:20px; background-color:#3498db; color:white; padding:10px; border-radius:5px; text-align:center; text-decoration:none; font-weight:bold; font-family: Arial, sans-serif;">
+                📋 Check Stress Level
+            </a>
+        </main>
+    </div>
+    
+    <div id="profile-panel" class="side-panel" onclick="event.stopPropagation()">
+        <div class="panel-header">👤 Profile Details</div>
+        
+        <p><strong>Username:</strong> {{ user }}</p>
+        <p><strong>Pet Name:</strong> {{ pet.name }}</p>
+        <p><strong>Pet Level:</strong> {{ pet.level }}</p>
+        <p><strong>Pet Health:</strong> {{ pet.health }}%</p>
+        <p><strong>Pet Stress:</strong> {{ pet.stress }}%</p>
+        <p><strong>Pet Status:</strong> <span class="status-{{ pet.status }}">{{ pet.status|upper }}</span></p>
 
-        <div class="pet-stats">
-            <div class="stat-item"><span>Level</span><span>{{ pet.level }}</span></div>
-            <div class="stat-item"><span>Experience</span><span>{{ pet.experience }}/50</span></div>
-            <div class="stat-item {% if pet.health <= 30 %}health-critical{% endif %}"><span>Health</span><span>{{ pet.health }}%</span></div>
-            <div class="stat-item {% if pet.stress >= 50 %}stress-high{% endif %}"><span>Stress</span><span>{{ pet.stress }}%</span></div>
-        </div>
+        <hr style="margin: 20px 0;">
 
-        <div class="pet-status status-{{ pet.status }}">
-            Status: {{ pet.status|upper }}
+        <h4>Customize Pet</h4>
+        <div class="pet-selection" style="text-align: center;">
+            <img src="/static/pets/1.jpg" id="pet1" onclick="selectPet(1)">
+            <img src="/static/pets/2.jpg" id="pet2" onclick="selectPet(2)">
+            <img src="/static/pets/3.jpg" id="pet3" onclick="selectPet(3)">
         </div>
+        <button class="save-pet-btn" onclick="savePetChoice()" style="display: block; width: 100%;">Save Pet</button>
+        
+        <hr style="margin: 20px 0;">
 
-        <a href="/stress_check" style="display:block; margin-top:15px; background-color:#3498db; color:white; padding:10px; border-radius:5px; text-align:center; text-decoration:none; font-weight:bold;">
-            📋 Check Stress Level
-        </a>
+        <h4>Recent Activity</h4>
+        {% set completed_tasks = tasks | selectattr('completed', 'equalto', true) | list %}
+        {% if completed_tasks %}
+            {% set recent_task = completed_tasks | last %}
+            <p style="font-size: 0.9em;">Completed: <strong>{{ recent_task.name }}</strong></p>
+        {% else %}
+            <p>No tasks completed yet!</p>
+        {% endif %}
+
     </div>
 
-    <!-- TASKS SECTION -->
-    <div class="tasks-section">
-        <div class="header">
-            <h1>📝 Tasks</h1>
-            <a href="/logout" class="logout-btn">Logout</a>
-        </div>
-        <p style="color:#3c7393; margin-bottom:20px;"><strong>Welcome, {{ user }}!</strong></p>
-
+    <div id="tasks-panel" class="side-panel" onclick="event.stopPropagation()">
+        <div class="panel-header">📝 Tasks Manager</div>
+        
         <div class="add-task-form">
-            <form action="/add_task" method="POST">
+            <form action="{{ url_for('add_task') }}" method="POST">
                 <input type="text" name="task_name" placeholder="Add a new task..." required>
-                <button type="submit">Add Task</button>
+                <button type="submit">Add</button>
             </form>
         </div>
 
@@ -96,32 +220,71 @@
             <li class="task-item {% if task.completed %}completed{% endif %}">
                 <div class="task-content">
                     <div class="task-name">{{ task.name }}</div>
-                    <div class="task-date">Created: {{ task.created }}</div>
                 </div>
                 <div class="task-actions">
-                    <a href="/complete_task/{{ task.id }}" class="complete-btn">{% if task.completed %}Undo{% else %}Done{% endif %}</a>
-                    <a href="/delete_task/{{ task.id }}" class="delete-btn" onclick="return confirm('Delete this task?')">Delete</a>
+                    <a href="{{ url_for('complete_task', task_id=task.id) }}" class="complete-btn">{% if task.completed %}Undo{% else %}Done{% endif %}</a>
+                    <a href="{{ url_for('delete_task', task_id=task.id) }}" class="delete-btn" onclick="return confirm('Delete this task?')">Delete</a>
                 </div>
             </li>
             {% endfor %}
         </ul>
         {% else %}
-        <div class="empty-message">No tasks yet. Add one to help your pet grow! 🚀</div>
+        <p style="text-align: center; color: #666; padding-top: 30px;">No tasks yet. Add one to help your pet!</p>
         {% endif %}
     </div>
-</div>
+
+
+    <nav class="bottom-nav">
+        <a href="#" class="nav-item" onclick="togglePanel('profile-panel', event)">
+            <i class="material-icons">person</i> 
+        </a>
+        <a href="{{ url_for('dashboard') }}" class="nav-item active">
+            <i class="material-icons">home</i>
+        </a>
+        <a href="#" class="nav-item" onclick="togglePanel('tasks-panel', event)">
+            <i class="material-icons">format_list_bulleted</i>
+        </a>
+        <a href="{{ url_for('logout') }}" class="nav-item">
+            <i class="material-icons">exit_to_app</i>
+        </a>
+    </nav>
+
 
 <script>
 let selectedPet = {{ pet.choice }};
 
-// highlight current pet
-document.querySelectorAll('.pet-selection img').forEach((img, index) => {
-    if(index+1 === selectedPet) img.classList.add("selected");
-});
-
-function showPetSelection(){
-    document.getElementById("pet-selection-menu").style.display = "block";
+// --- Panel Logic ---
+function closeAllPanels() {
+    // Closes panels when clicking on the main screen-container
+    document.getElementById('profile-panel').classList.remove('open');
+    document.getElementById('tasks-panel').classList.remove('open');
 }
+
+function togglePanel(panelId, event) {
+    if (event) {
+        event.preventDefault();
+        event.stopPropagation(); // Prevent screen-container from immediately closing the panel
+    }
+    const panel = document.getElementById(panelId);
+    const isOpen = panel.classList.contains('open');
+
+    // Close the other panel if it's open
+    const otherPanelId = panelId === 'profile-panel' ? 'tasks-panel' : 'profile-panel';
+    document.getElementById(otherPanelId).classList.remove('open');
+
+    // Toggle the current panel
+    if (isOpen) {
+        panel.classList.remove('open');
+    } else {
+        panel.classList.add('open');
+    }
+}
+
+// --- Pet Selection Logic ---
+// highlight current pet on load in the profile panel
+document.querySelectorAll('.pet-selection img').forEach((img, index) => {
+    if(index + 1 === selectedPet) img.classList.add("selected");
+});
 
 function selectPet(petNumber){
     selectedPet = petNumber;
@@ -132,7 +295,7 @@ function selectPet(petNumber){
 }
 
 function savePetChoice(){
-    fetch('/save_pet', {
+    fetch('{{ url_for("save_pet") }}', {
         method:'POST',
         headers:{'Content-Type':'application/json'},
         body: JSON.stringify({ pet_choice: selectedPet })
@@ -141,8 +304,10 @@ function savePetChoice(){
     .then(data=>{
         if(data.success){
             document.getElementById("main-pet").src = "/static/pets/"+selectedPet+".jpg";
-            document.getElementById("pet-selection-menu").style.display="none";
             alert('Pet saved!');
+            closeAllPanels();
+            // Reload window to ensure the Pet Details in the panel are fresh
+            window.location.reload(); 
         } else {
             alert('Error saving pet.');
         }
