@@ -1,0 +1,254 @@
+<html>
+<head>
+    <title>Stress Check Results</title>
+    <style>
+        body {
+            background-color: #3c7393;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px #aaa;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: #3c7393;
+            margin: 0;
+        }
+        .result-box {
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .stress-score-display {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .stress-level-low {
+            background: #d5f4e6;
+            border-left: 4px solid #27ae60;
+        }
+        .stress-level-moderate {
+            background: #fef5e7;
+            border-left: 4px solid #f39c12;
+        }
+        .stress-level-high {
+            background: #fdeef0;
+            border-left: 4px solid #e74c3c;
+        }
+        .result-box h2 {
+            color: #333;
+            margin: 0 0 10px 0;
+        }
+        .result-box p {
+            color: #666;
+            margin: 0;
+        }
+        .pet-response {
+            background: #f0f7ff;
+            border: 2px solid #3c7393;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .pet-emoji {
+            font-size: 60px;
+            margin: 10px 0;
+        }
+        .pet-reaction {
+            font-size: 18px;
+            color: #333;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .pet-stats {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+        .stat-label {
+            font-weight: bold;
+            color: #333;
+        }
+        .stat-value {
+            color: #3c7393;
+        }
+        .advice-box {
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #27ae60;
+            margin: 20px 0;
+        }
+        .advice-box h3 {
+            color: #2e7d32;
+            margin-top: 0;
+        }
+        .advice-box p {
+            color: #1b5e20;
+            margin: 0;
+            font-size: 14px;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+        }
+        .btn-primary {
+            background-color: #3c7393;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #2c5170;
+        }
+        .btn-secondary {
+            background-color: #95a5a6;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+        }
+        .timeline {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        .timeline h3 {
+            color: #3c7393;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Your Stress Assessment Results</h1>
+        </div>
+        
+        <!-- Stress Score -->
+        {% if stress_score < 25 %}
+            <div class="result-box stress-level-low">
+                <h2>✨ Great! Your stress is LOW</h2>
+                <div class="stress-score-display">{{ stress_score }}%</div>
+                <p>You're in a healthy mental state. Keep it up!</p>
+            </div>
+        {% elif stress_score < 50 %}
+            <div class="result-box stress-level-moderate">
+                <h2>⚠️ Moderate Stress Levels</h2>
+                <div class="stress-score-display">{{ stress_score }}%</div>
+                <p>You're managing okay, but consider some relaxation activities.</p>
+            </div>
+        {% else %}
+            <div class="result-box stress-level-high">
+                <h2>🚨 High Stress Levels</h2>
+                <div class="stress-score-display">{{ stress_score }}%</div>
+                <p>Your stress is elevated. Take care of yourself today.</p>
+            </div>
+        {% endif %}
+        
+        <!-- Pet Response -->
+        <div class="pet-response">
+            <h2>Your Pet's Response:</h2>
+            
+            <div class="pet-emoji">
+                {% if pet.status == "dead" %}
+                    ⚰️
+                {% elif pet.status == "sick" %}
+                    🤒
+                {% elif pet.status == "sad" %}
+                    😢
+                {% else %}
+                    😊
+                {% endif %}
+            </div>
+            
+            <div class="pet-reaction">
+                {% if stress_score < 25 %}
+                    Your pet is so happy! 🎉
+                {% elif stress_score < 50 %}
+                    Your pet is concerned about you 😟
+                {% else %}
+                    Your pet feels your stress 😭
+                {% endif %}
+            </div>
+            
+            <div class="pet-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Pet Level:</span>
+                    <span class="stat-value">{{ pet.level }}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Pet Health:</span>
+                    <span class="stat-value">{{ pet.health }}%</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Pet Stress:</span>
+                    <span class="stat-value">{{ pet.stress }}%</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Pet Status:</span>
+                    <span class="stat-value" style="text-transform: capitalize;">{{ pet.status }}</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Advice -->
+        {% if stress_score >= 50 %}
+            <div class="advice-box">
+                <h3>💡 Quick Tips to Reduce Stress:</h3>
+                <p>✓ Take deep breaths - try 5 minutes of breathing exercises<br>
+                   ✓ Go for a short walk or stretch<br>
+                   ✓ Talk to someone you trust<br>
+                   ✓ Complete some tasks on your to-do list - wins boost mood!<br>
+                   ✓ Take breaks from your screen<br>
+                   ✓ Remember: Your pet needs you to be well! 🐾</p>
+            </div>
+        {% else %}
+            <div class="advice-box">
+                <h3>💡 Keep Maintaining Your Wellness:</h3>
+                <p>✓ Continue with what's working for you<br>
+                   ✓ Keep completing your tasks to make your pet happy<br>
+                   ✓ Regular stress check-ins help track your progress<br>
+                   ✓ Your pet is thriving because you're taking care of yourself! 🐾</p>
+            </div>
+        {% endif %}
+        
+        <div class="button-group">
+            <a href="/dashboard" class="btn btn-primary">Back to Dashboard</a>
+            <a href="/stress_check" class="btn btn-secondary">Re-assess</a>
+        </div>
+    </div>
+</body>
+</html>
