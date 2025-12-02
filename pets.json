@@ -20,14 +20,14 @@
         "status": "happy"
     },
     "edrian": {
-        "name": "Pou",
+        "name": "lorenz",
         "level": 2,
         "experience": 10,
         "health": 100,
         "stress": 0,
         "created": "2025-11-21 17:58:38",
-        "last_updated": "2025-12-02 17:03:53",
+        "last_updated": "2025-12-02 18:10:32",
         "status": "happy",
-        "choice": 1
+        "choice": 2
     }
 }

@@ -144,6 +144,22 @@
         .save-pet-btn {
             background-color:#98C430 !important;
         }
+
+        /* Styling for Pet Choice Selection */
+        .pet-selection img {
+            width: 80px; /* Smaller image size for selection */
+            height: 80px; 
+            border-radius: 50%;
+            margin: 5px;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: border 0.2s;
+        }
+
+        .pet-selection img.selected {
+            border-color: #98C430; /* Highlight the currently selected pet */
+            box-shadow: 0 0 10px rgba(152, 196, 48, 0.8);
+        }
         
     </style>
 </head>
@@ -159,14 +175,14 @@
                     <p>EXP: {{ pet.experience }}/50</p>
                 </header>
                 
-                <h1 class="user-name">{{ user }}</h1> 
+                <h1 class="user-name">{{ pet.name }}</h1>
                 
                 <div class="profile-picture-container">
                     <img id="main-pet" src="/static/pets/{{ pet.choice }}.jpg" alt="Character Profile" class="profile-image">
                 </div>
             </div>
             <a href="{{ url_for('stress_check') }}" style="display:block; margin-top:20px; background-color:#3498db; color:white; padding:10px; border-radius:5px; text-align:center; text-decoration:none; font-weight:bold; font-family: Arial, sans-serif;">
-                📋 Check Stress Level
+                    Check Stress Level
             </a>
         </main>
     </div>
@@ -175,7 +191,12 @@
         <div class="panel-header">👤 Profile Details</div>
         
         <p><strong>Username:</strong> {{ user }}</p>
-        <p><strong>Pet Name:</strong> {{ pet.name }}</p>
+        
+        <div style="display: flex; align-items: center; margin-bottom: 15px;">
+            <p style="margin: 0; padding-right: 10px;"><strong>Pet Name:</strong></p>
+            <input type="text" id="pet-name-input" value="{{ pet.name }}" style="flex-grow: 1; padding: 5px; border: 1px solid #ccc; border-radius: 5px; font-family: Arial, sans-serif;">
+            <button onclick="savePetName()" style="background-color: #98C430; color: white; border: none; padding: 6px 10px; border-radius: 5px; cursor: pointer; margin-left: 5px; font-size: 12px;">Save</button>
+        </div>
         <p><strong>Pet Level:</strong> {{ pet.level }}</p>
         <p><strong>Pet Health:</strong> {{ pet.health }}%</p>
         <p><strong>Pet Stress:</strong> {{ pet.stress }}%</p>
@@ -251,7 +272,7 @@
 
 
 <script>
-let selectedPet = {{ pet.choice }};
+let selectedPet = {{ pet.choice | default(1) }};
 
 // --- Panel Logic ---
 function closeAllPanels() {
@@ -313,6 +334,49 @@ function savePetChoice(){
         }
     });
 }
+
+
+// --- NEW PET NAME EDIT LOGIC ---
+function savePetName() {
+    const newName = document.getElementById('pet-name-input').value.trim();
+
+    if (!newName || newName.length > 20) {
+        alert("Please enter a valid pet name (1-20 characters).");
+        return;
+    }
+
+    fetch('{{ url_for("edit_pet_name") }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ new_name: newName })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            // 1. Update the main display name
+            // The pet name display uses the .user-name class in the main display wrapper
+            const mainNameDisplay = document.querySelector('.pet-display-wrapper .user-name');
+            if (mainNameDisplay) {
+                mainNameDisplay.textContent = newName;
+            }
+
+            // 2. Update the input field value (if necessary)
+            document.getElementById('pet-name-input').value = newName;
+            
+            alert(`Pet name changed to ${newName}!`);
+            closeAllPanels();
+        } else {
+            alert(data.message || 'Error saving pet name.');
+        }
+    })
+    .catch(error => {
+        console.error('Fetch Error:', error);
+        alert('An error occurred while saving the pet name.');
+    });
+}
+// --- END NEW PET NAME EDIT LOGIC ---
 </script>
 </body>
 </html>
