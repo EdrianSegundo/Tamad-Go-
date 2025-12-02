@@ -2,12 +2,13 @@
     "John": {
         "name": "Pou",
         "level": 1,
-        "experience": 30,
+        "experience": 35,
         "health": 100,
-        "stress": 15,
+        "stress": 0,
         "created": "2025-11-21 17:38:15",
-        "last_updated": "2025-11-21 19:10:31",
-        "status": "happy"
+        "last_updated": "2025-12-02 18:19:45",
+        "status": "happy",
+        "choice": 2
     },
     "Rikkue": {
         "name": "Pou",
@@ -20,14 +21,14 @@
         "status": "happy"
     },
     "edrian": {
-        "name": "lorenz",
+        "name": "yey",
         "level": 2,
         "experience": 10,
         "health": 100,
         "stress": 0,
         "created": "2025-11-21 17:58:38",
-        "last_updated": "2025-12-02 18:10:32",
+        "last_updated": "2025-12-02 18:17:31",
         "status": "happy",
-        "choice": 2
+        "choice": 3
     }
 }

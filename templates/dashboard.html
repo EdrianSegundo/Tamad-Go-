@@ -182,13 +182,13 @@
                 </div>
             </div>
             <a href="{{ url_for('stress_check') }}" style="display:block; margin-top:20px; background-color:#3498db; color:white; padding:10px; border-radius:5px; text-align:center; text-decoration:none; font-weight:bold; font-family: Arial, sans-serif;">
-                    Check Stress Level
+                    How are you feeling today?
             </a>
         </main>
     </div>
     
     <div id="profile-panel" class="side-panel" onclick="event.stopPropagation()">
-        <div class="panel-header">👤 Profile Details</div>
+        <div class="panel-header"> Profile Details</div>
         
         <p><strong>Username:</strong> {{ user }}</p>
         
@@ -226,7 +226,7 @@
     </div>
 
     <div id="tasks-panel" class="side-panel" onclick="event.stopPropagation()">
-        <div class="panel-header">📝 Tasks Manager</div>
+        <div class="panel-header"> Tasks Manager</div>
         
         <div class="add-task-form">
             <form action="{{ url_for('add_task') }}" method="POST">
