@@ -1,0 +1,215 @@
+<html>
+<head>
+    <title>TamadGo - Task Manager</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <style>
+        /* Base Styles (Matching the new dashboard UI) */
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            font-family: 'Titan One', cursive; 
+            overflow: hidden; 
+            color: #FFFFFF;
+        }
+
+        .screen-container {
+            height: 100%;
+            width: 100%;
+            /* Gradient: Green (#98C430) to Yellow (#FDD835) */
+            background: linear-gradient(to bottom, #98C430 0%, #FDD835 100%); 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+            padding-bottom: 60px; /* Space for fixed bottom nav */
+            box-sizing: border-box;
+            overflow-y: auto; /* Allow the task list to scroll */
+        }
+        
+        /* Task Manager Specific Styles */
+        .tasks-section {
+            width: 90%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            color: #333; /* Dark text for readability on white background */
+            margin-top: 20px;
+        }
+
+        .tasks-section h2 {
+            font-family: 'Titan One', cursive;
+            color: #98C430;
+            text-align: center;
+            margin-top: 0;
+            font-size: 2em;
+        }
+
+        /* Task Form */
+        .task-form {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        .task-form input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 5px 0 0 5px;
+            font-size: 16px;
+        }
+        .task-form button {
+            background-color: #98C430;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: Arial, sans-serif;
+        }
+        .task-form button:hover {
+            background-color: #719b25;
+        }
+
+        /* Task List */
+        .task-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .task-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            border-left: 5px solid #3498db;
+            transition: all 0.3s;
+        }
+
+        .task-item.completed {
+            border-left: 5px solid #98C430;
+            opacity: 0.7;
+            text-decoration: line-through;
+            background: #e9ecef;
+        }
+
+        .task-actions a {
+            text-decoration: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 3px;
+            margin-left: 5px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .toggle-btn { background-color: #3498db; }
+        .toggle-btn:hover { background-color: #2980b9; }
+        .task-item.completed .toggle-btn { background-color: #f39c12; }
+        .task-item.completed .toggle-btn:hover { background-color: #e67e22; }
+
+        .delete-btn { background-color: #e74c3c; }
+        .delete-btn:hover { background-color: #c0392b; }
+
+        .empty-message {
+            text-align: center;
+            color: #666;
+            padding: 20px;
+            font-style: italic;
+        }
+
+        /* Fixed Bottom Navigation (Matching the new dashboard UI) */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: #FDD835; 
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.7); 
+            transition: color 0.3s;
+            flex: 1;
+            height: 100%;
+        }
+
+        .nav-item i {
+            font-size: 30px; 
+        }
+
+        .nav-item.active {
+            color: #FFFFFF; 
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="screen-container">
+        
+        <div class="tasks-section">
+            <h2>Task Manager</h2>
+            
+            <form action="{{ url_for('add_task') }}" method="POST" class="task-form">
+                <input type="text" name="task_name" placeholder="New Task Name" required>
+                <button type="submit">Add Task</button>
+            </form>
+
+            <ul class="task-list">
+                {% if tasks[user] %}
+                {% for task in tasks[user] %}
+                <li class="task-item {% if task.completed %}completed{% endif %}">
+                    <span>{{ task.name }}</span>
+                    <div class="task-actions">
+                        <a href="{{ url_for('toggle_task', task_id=task.id) }}" class="toggle-btn">
+                            {% if task.completed %}Undo{% else %}Complete{% endif %}
+                        </a>
+                        <a href="{{ url_for('delete_task', task_id=task.id) }}" class="delete-btn" onclick="return confirm('Are you sure you want to delete this task?')">Delete</a>
+                    </div>
+                </li>
+                {% endfor %}
+                
+                {% else %}
+                <div class="empty-message">No tasks yet. Add one to help your pet grow! 🚀</div>
+                {% endif %}
+            </ul>
+        </div>
+        
+    </div>
+    
+    <nav class="bottom-nav">
+        <a href="{{ url_for('dashboard') }}" class="nav-item">
+            <i class="material-icons">person</i> 
+        </a>
+        <a href="{{ url_for('dashboard') }}" class="nav-item">
+            <i class="material-icons">home</i>
+        </a>
+        <a href="{{ url_for('tasks_page') }}" class="nav-item active">
+            <i class="material-icons">format_list_bulleted</i>
+        </a>
+        <a href="{{ url_for('logout') }}" class="nav-item">
+            <i class="material-icons">exit_to_app</i>
+        </a>
+    </nav>
+</body>
+</html>
