@@ -1,12 +1,12 @@
 {
     "John": {
-        "name": "Pou",
+        "name": "patrick",
         "level": 1,
         "experience": 35,
         "health": 100,
         "stress": 0,
         "created": "2025-11-21 17:38:15",
-        "last_updated": "2025-12-02 18:19:45",
+        "last_updated": "2025-12-02 18:22:36",
         "status": "happy",
         "choice": 2
     },
@@ -21,14 +21,14 @@
         "status": "happy"
     },
     "edrian": {
-        "name": "yey",
+        "name": "ed",
         "level": 2,
-        "experience": 10,
+        "experience": 35,
         "health": 100,
         "stress": 0,
         "created": "2025-11-21 17:58:38",
-        "last_updated": "2025-12-02 18:17:31",
+        "last_updated": "2025-12-04 21:00:01",
         "status": "happy",
-        "choice": 3
+        "choice": 2
     }
 }

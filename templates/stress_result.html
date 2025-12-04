@@ -3,14 +3,23 @@
     <title>Stress Check Results</title>
     <style>
         body {
-            background-color: #3c7393;
+            
+            background-image: url('/static/result.jpg');
+            background-size: cover; 
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            height: 100vh;
+            margin: 0; 
+            
+            
             font-family: Arial, sans-serif;
             padding: 20px;
         }
         .container {
             max-width: 600px;
             margin: 0 auto;
-            background: white;
+            
+            background: rgba(255, 255, 255, 0.95); 
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 0 15px #aaa;
@@ -154,31 +163,29 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>📊 Your Stress Assessment Results</h1>
+            <h1> Your Stress Assessment Results</h1>
         </div>
         
-        <!-- Stress Score -->
         {% if stress_score < 25 %}
             <div class="result-box stress-level-low">
-                <h2>✨ Great! Your stress is LOW</h2>
+                <h2> Great! Your stress is LOW</h2>
                 <div class="stress-score-display">{{ stress_score }}%</div>
                 <p>You're in a healthy mental state. Keep it up!</p>
             </div>
         {% elif stress_score < 50 %}
             <div class="result-box stress-level-moderate">
-                <h2>⚠️ Moderate Stress Levels</h2>
+                <h2> Moderate Stress Levels</h2>
                 <div class="stress-score-display">{{ stress_score }}%</div>
                 <p>You're managing okay, but consider some relaxation activities.</p>
             </div>
         {% else %}
             <div class="result-box stress-level-high">
-                <h2>🚨 High Stress Levels</h2>
+                <h2> High Stress Levels</h2>
                 <div class="stress-score-display">{{ stress_score }}%</div>
                 <p>Your stress is elevated. Take care of yourself today.</p>
             </div>
         {% endif %}
         
-        <!-- Pet Response -->
         <div class="pet-response">
             <h2>Your Pet's Response:</h2>
             
@@ -196,11 +203,11 @@
             
             <div class="pet-reaction">
                 {% if stress_score < 25 %}
-                    Your pet is so happy! 🎉
+                    Your pet is so happy! 
                 {% elif stress_score < 50 %}
-                    Your pet is concerned about you 😟
+                    Your pet is concerned about you 
                 {% else %}
-                    Your pet feels your stress 😭
+                    Your pet feels your stress 
                 {% endif %}
             </div>
             
@@ -224,24 +231,23 @@
             </div>
         </div>
         
-        <!-- Advice -->
         {% if stress_score >= 50 %}
             <div class="advice-box">
-                <h3>💡 Quick Tips to Reduce Stress:</h3>
+                <h3> Quick Tips to Reduce Stress:</h3>
                 <p>✓ Take deep breaths - try 5 minutes of breathing exercises<br>
-                   ✓ Go for a short walk or stretch<br>
-                   ✓ Talk to someone you trust<br>
-                   ✓ Complete some tasks on your to-do list - wins boost mood!<br>
-                   ✓ Take breaks from your screen<br>
-                   ✓ Remember: Your pet needs you to be well! 🐾</p>
+                    ✓ Go for a short walk or stretch<br>
+                    ✓ Talk to someone you trust<br>
+                    ✓ Complete some tasks on your to-do list - wins boost mood!<br>
+                    ✓ Take breaks from your screen<br>
+                    ✓ Remember: Your pet needs you to be well! </p>
             </div>
         {% else %}
             <div class="advice-box">
-                <h3>💡 Keep Maintaining Your Wellness:</h3>
+                <h3> Keep Maintaining Your Wellness:</h3>
                 <p>✓ Continue with what's working for you<br>
-                   ✓ Keep completing your tasks to make your pet happy<br>
-                   ✓ Regular stress check-ins help track your progress<br>
-                   ✓ Your pet is thriving because you're taking care of yourself! 🐾</p>
+                    ✓ Keep completing your tasks to make your pet happy<br>
+                    ✓ Regular stress check-ins help track your progress<br>
+                    ✓ Your pet is thriving because you're taking care of yourself! </p>
             </div>
         {% endif %}
         

@@ -3,14 +3,23 @@
     <title>Stress Check-In</title>
     <style>
         body {
-            background-color: #f6e86e;
+            
+            background-image: url('/static/assesment.jpg'); 
+            background-size: cover; 
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            height: 100vh;
+            margin: 0; 
+            
+            
             font-family: Arial, sans-serif;
             padding: 20px;
         }
         .container {
             max-width: 600px;
             margin: 0 auto;
-            background: white;
+            
+            background: rgba(255, 255, 255, 0.95); 
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 0 15px #aaa;
@@ -141,7 +150,6 @@
         </div>
         
         <form action="/submit_stress" method="POST">
-            <!-- Question 1 -->
             <div class="question-group">
                 <div class="question-text">1. How overwhelmed do you feel right now?</div>
                 <div class="scale-labels">
@@ -172,7 +180,6 @@
                 </div>
             </div>
             
-            <!-- Question 2 -->
             <div class="question-group">
                 <div class="question-text">2. How would you rate your anxiety level?</div>
                 <div class="scale-labels">
@@ -203,7 +210,6 @@
                 </div>
             </div>
             
-            <!-- Question 3 -->
             <div class="question-group">
                 <div class="question-text">3. How is your sleep quality?</div>
                 <div class="scale-labels">
@@ -234,7 +240,6 @@
                 </div>
             </div>
             
-            <!-- Question 4 -->
             <div class="question-group">
                 <div class="question-text">4. How focused can you be on your tasks?</div>
                 <div class="scale-labels">
@@ -265,7 +270,6 @@
                 </div>
             </div>
             
-            <!-- Question 5 -->
             <div class="question-group">
                 <div class="question-text">5. How motivated are you today?</div>
                 <div class="scale-labels">

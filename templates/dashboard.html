@@ -21,7 +21,7 @@
         
         .screen-container {
     height: 100%; width: 100%;
-    /* 🛑 REPLACE THE radial-gradient LINE WITH THIS: */
+    
     background: url('/static/background.jpg') no-repeat center center fixed; 
     background-size: cover; 
     
@@ -29,10 +29,10 @@
     padding-bottom: 60px; box-sizing: border-box;
     overflow: hidden;
 }
-        /* Stats in White Box */
+        /* Stats inside the white box */
         .user-stats {
             text-align: center; 
-            padding-bottom: 15px; /* Space above the name */
+            padding-bottom: 15px; 
             line-height: 1.2;
             z-index: 10;
         }
@@ -40,23 +40,21 @@
             font-size: 2em; 
             margin: 0; 
             color: #FFFFFF; 
-            /* Thinner Stroke: 3px */
             -webkit-text-stroke: 3px #000000; 
             text-stroke: 3px #000000; 
         }
 
-        /* Main Profile Content - Key for Vertical Centering */
+        /* Main profile content */
         .profile-content {
             flex-grow: 1; 
             display: flex; 
             flex-direction: column; 
             align-items: center; 
-            /* 🔥 Center content vertically in the available space 🔥 */
             justify-content: center; 
             width: 100%; 
         }
         
-        /* The White Box Background */
+        /*  white box background */
         .pet-display-wrapper {
             background: rgba(242, 234, 97, 0.9); 
             padding: 40px 60px; 
@@ -65,7 +63,7 @@
             display: flex; 
             flex-direction: column;
             align-items: center; 
-            margin: 20px 0; /* Ensures vertical centering works smoothly */
+            margin: 20px 0; 
         }
 
         .user-name {
@@ -76,24 +74,24 @@
             text-stroke: 3px #000000;
         }
         
-        /* 🔥 INCREASED IMAGE SIZE 🔥 */
+       
         .profile-picture-container {
-            width: 250px; /* Increased size */
-            height: 250px; /* Increased size */
+            width: 250px; 
+            height: 250px; 
             border-radius: 50%; 
             background-color: rgba(255, 255, 255, 0.7); 
             display: flex; justify-content: center; align-items: center; 
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
         .profile-image {
-            width: 220px; /* Increased size */
-            height: 220px; /* Increased size */
+            width: 220px; 
+            height: 220px;
             border-radius: 50%; 
             border: 8px solid rgba(255, 255, 255, 0.8); 
             object-fit: cover;
         }
 
-        /* --- Panel Styles (Unchanged) --- */
+        /* panel styles */
         .side-panel {
             position: fixed; top: 0; height: 100%; width: 80%; max-width: 350px; background: rgba(255, 255, 255, 0.95);
             padding: 20px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); z-index: 900; transition: transform 0.3s ease-out;
@@ -104,13 +102,13 @@
         #tasks-panel { right: 0; transform: translateX(100%); }
         #tasks-panel.open { transform: translateX(0); }
 
-        /* Panel Content Styling */
+        /* panel content styling */
         .panel-header {
-            font-family: 'Lilita One', cursive; /* Updated Font */
+            font-family: 'Lilita One', cursive;
             color: #98C430; font-size: 1.8em; margin-bottom: 20px; border-bottom: 2px solid #ddd; padding-bottom: 10px; text-align: center;
         }
 
-        /* Task List Styling */
+        /* task list styling */
         .tasks-list { list-style:none; padding:0; margin:0; }
         .task-item { background:#f0f0f0; padding:10px; margin-bottom:8px; border-radius:5px; display:flex; justify-content:space-between; align-items:center; border-left:4px solid #FDD835; }
         .task-item.completed { background:#e8f5e9; border-left-color:#27ae60; }
@@ -120,13 +118,13 @@
         .complete-btn { background-color:#3498db; color:white; }
         .delete-btn { background-color:#e74c3c; color:white; }
 
-        /* Add Task Form */
+        /* add task form */
         .add-task-form { margin-bottom: 20px; }
         .add-task-form form { display: flex; gap: 5px; }
         .add-task-form input { flex-grow: 1; padding: 8px; border: 1px solid #ccc; border-radius: 5px; }
         .add-task-form button { background-color: #98C430; color: white; border: none; padding: 8px 10px; border-radius: 5px; cursor: pointer; }
 
-        /* Bottom Nav */
+        /* bottom Navigation bar */
         .bottom-nav {
             display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; left: 0;
             width: 100%; height: 60px; background-color: #FDD835; box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2); z-index: 1000;
@@ -145,9 +143,9 @@
             background-color:#98C430 !important;
         }
 
-        /* Styling for Pet Choice Selection */
+        /* pet choice */
         .pet-selection img {
-            width: 80px; /* Smaller image size for selection */
+            width: 80px; 
             height: 80px; 
             border-radius: 50%;
             margin: 5px;
@@ -157,7 +155,7 @@
         }
 
         .pet-selection img.selected {
-            border-color: #98C430; /* Highlight the currently selected pet */
+            border-color: #98C430; 
             box-shadow: 0 0 10px rgba(152, 196, 48, 0.8);
         }
         
@@ -274,9 +272,9 @@
 <script>
 let selectedPet = {{ pet.choice | default(1) }};
 
-// --- Panel Logic ---
+//  panel logic 
 function closeAllPanels() {
-    // Closes panels when clicking on the main screen-container
+    
     document.getElementById('profile-panel').classList.remove('open');
     document.getElementById('tasks-panel').classList.remove('open');
 }
@@ -284,16 +282,16 @@ function closeAllPanels() {
 function togglePanel(panelId, event) {
     if (event) {
         event.preventDefault();
-        event.stopPropagation(); // Prevent screen-container from immediately closing the panel
+        event.stopPropagation(); 
     }
     const panel = document.getElementById(panelId);
     const isOpen = panel.classList.contains('open');
 
-    // Close the other panel if it's open
+    //closes other panel if another is opened
     const otherPanelId = panelId === 'profile-panel' ? 'tasks-panel' : 'profile-panel';
     document.getElementById(otherPanelId).classList.remove('open');
 
-    // Toggle the current panel
+    // toggles the current panel
     if (isOpen) {
         panel.classList.remove('open');
     } else {
@@ -301,8 +299,8 @@ function togglePanel(panelId, event) {
     }
 }
 
-// --- Pet Selection Logic ---
-// highlight current pet on load in the profile panel
+// pet selection
+// highlights current pet on load in the profile panel
 document.querySelectorAll('.pet-selection img').forEach((img, index) => {
     if(index + 1 === selectedPet) img.classList.add("selected");
 });
@@ -327,7 +325,7 @@ function savePetChoice(){
             document.getElementById("main-pet").src = "/static/pets/"+selectedPet+".jpg";
             alert('Pet saved!');
             closeAllPanels();
-            // Reload window to ensure the Pet Details in the panel are fresh
+            
             window.location.reload(); 
         } else {
             alert('Error saving pet.');
@@ -336,7 +334,7 @@ function savePetChoice(){
 }
 
 
-// --- NEW PET NAME EDIT LOGIC ---
+// new pet name
 function savePetName() {
     const newName = document.getElementById('pet-name-input').value.trim();
 
@@ -355,14 +353,13 @@ function savePetName() {
     .then(res => res.json())
     .then(data => {
         if (data.success) {
-            // 1. Update the main display name
-            // The pet name display uses the .user-name class in the main display wrapper
+            
             const mainNameDisplay = document.querySelector('.pet-display-wrapper .user-name');
             if (mainNameDisplay) {
                 mainNameDisplay.textContent = newName;
             }
 
-            // 2. Update the input field value (if necessary)
+            
             document.getElementById('pet-name-input').value = newName;
             
             alert(`Pet name changed to ${newName}!`);
@@ -376,7 +373,7 @@ function savePetName() {
         alert('An error occurred while saving the pet name.');
     });
 }
-// --- END NEW PET NAME EDIT LOGIC ---
+
 </script>
 </body>
 </html>

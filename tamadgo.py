@@ -38,7 +38,6 @@ def save_pets(pets):
         json.dump(pets, file, indent=4)
 
 # ---------------- Pet Functions ----------------
-# *** START OF CRITICAL FIX: Robust initialize_pet ***
 def initialize_pet(username):
     """Initializes pet stats for a new user AND patches old user data with 'name' and 'choice'."""
     pets = load_pets()
@@ -59,13 +58,13 @@ def initialize_pet(username):
         }
         needs_save = True
     else:
-        # 2. Patching Old Data (CRITICAL FIX for white screen)
-        # Ensure 'choice' key exists
+        
+        # Ensures the 'choice' key exists
         if "choice" not in pets[username]:
             pets[username]["choice"] = 1
             needs_save = True
             
-        # Ensure 'name' key exists
+        # Ensures the 'name' key exists
         if "name" not in pets[username]:
             pets[username]["name"] = "Pou"
             needs_save = True
@@ -74,14 +73,13 @@ def initialize_pet(username):
         save_pets(pets)
         
     return pets[username]
-# *** END OF CRITICAL FIX: Robust initialize_pet ***
 
-# Place this function inside your Pet Functions section, near initialize_pet
+
 def update_pet_name(username, new_name):
     pets = load_pets()
     if username in pets:
         pets[username]['name'] = new_name
-        # --- ADDED LINE FOR CONSISTENCY ---
+        # -------------------------------- ---
         pets[username]["last_updated"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         # ------------------------------------
         save_pets(pets)
@@ -110,7 +108,7 @@ def complete_task_update_pet(username, on_time=True):
     if username in pets:
         pet = pets[username]
         
-        # Simplified EXP and level up logic
+        # EXP and Leveling up logic
         exp_gain = 10 if on_time else 5
         pet["experience"] += exp_gain
         pet["stress"] = max(0, pet["stress"] - 5)
@@ -133,7 +131,7 @@ def load_user_data(username):
     pets = load_pets()
     users = load_users()
     
-    # Start with base user data (if needed, e.g., for pet_choice)
+    # Start with base user data
     user_data = users.get(username, {})
     
     # Get the pet stats
@@ -149,7 +147,7 @@ def update_pet_stress_from_questionnaire(username, stress_score):
     if username in pets:
         pet = pets[username]
         
-        # Update stress based on score
+        # Updates stress based on score
         pet["stress"] = stress_score
         
         if stress_score >= 75:
@@ -170,10 +168,10 @@ def update_pet_stress_from_questionnaire(username, stress_score):
 # ---------------- Routes ----------------
 @app.route("/")
 def index():
-    # Ensure this points to your login page template name
+    
     return render_template("login.html")
 
-# *** START OF LOGIN ROUTE FIX ***
+
 @app.route("/login", methods=["POST"])
 def login():
     username = request.form["username"]
@@ -181,10 +179,10 @@ def login():
     users = load_users()
     if username in users and users[username]["password"] == password:
         session["username"] = username
-        initialize_pet(username) # <-- ADDED: Initializes new pet or patches old data
+        initialize_pet(username) 
         return redirect(url_for("dashboard"))
     return "<h2>Invalid username or password</h2><a href='/'>Try again</a>"
-# *** END OF LOGIN ROUTE FIX ***
+
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
@@ -203,10 +201,10 @@ def signup():
     
     users[username] = {"password": password}
     save_users(users)
-    initialize_pet(username) # Initialize pet here too for new users
+    initialize_pet(username) 
     return "<h2>Account created successfully!</h2><a href='/'>Login here</a>"
 
-# *** START OF DASHBOARD ROUTE FIX ***
+
 @app.route("/dashboard")
 def dashboard():
     if "username" not in session:
@@ -214,22 +212,22 @@ def dashboard():
     
     username = session["username"]
     
-    # CRITICAL FIX: Ensure pet data is complete BEFORE loading
+    
     initialize_pet(username) 
     
-    # 1. Load user data using the new helper function
+    # 1. Loads user data using the new helper function
     user_data = load_user_data(username)
     pet = user_data.get("pet", {})
     
-    # 2. Load all tasks, then filter for the current user
+    # 2. Loads all tasks, then filter for the current user
     all_tasks = load_tasks()
     user_tasks = all_tasks.get(username, [])
     
-    # Sort tasks to show incomplete first, then completed.
+    # Sorts tasks to show incomplete first, then completed.
     user_tasks.sort(key=lambda t: (t.get('completed', False), t.get('created', '')))
     
     return render_template("dashboard.html", user=username, pet=pet, tasks=user_tasks)
-# *** END OF DASHBOARD ROUTE FIX ***
+
 
 
 @app.route("/save_pet", methods=["POST"])
@@ -250,12 +248,12 @@ def save_pet():
     return jsonify({'success': False}), 400
 
 
-# --- Task ID Generator Fix (Ensures unique IDs even after deletion) ---
+
 def generate_task_id(username):
     tasks = load_tasks()
     if username not in tasks or not tasks[username]:
         return 1
-    # Find the max ID among existing tasks and add 1
+    
     max_id = max([task["id"] for task in tasks[username]] + [0])
     return max_id + 1
 
@@ -270,7 +268,7 @@ def add_task():
         tasks[username] = []
         
     new_task = {
-        "id": generate_task_id(username), # Use the robust generator
+        "id": generate_task_id(username), 
         "name": task_name,
         "completed": False,
         "created": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -323,7 +321,7 @@ def submit_stress():
         return redirect(url_for("index"))
     username = session["username"]
     
-    # Gather and validate form data
+    # Gathers and validate form data
     try:
         q1 = int(request.form.get("q1", 3))
         q2 = int(request.form.get("q2", 3))
@@ -335,18 +333,17 @@ def submit_stress():
 
     total = q1 + q2 + q3 + q4 + q5
     
-    # Calculate stress score (0-100 range)
+    # Calculates stress score (0-100 range)
     # Min score = 5, Max score = 25. Range is 20.
     stress_score = ((total - 5) / 20) * 100
     stress_score = max(0, min(100, int(stress_score)))
     
     pet = update_pet_stress_from_questionnaire(username, stress_score)
     
-    # You need a stress_result.html template for this to work
-    # Since you didn't provide it, assuming it exists:
+    
     return render_template("stress_result.html", stress_score=stress_score, pet=pet, user=username)
 
 
-# ---------------- Run App ----------------
+    #Runs the app
 if __name__ == "__main__":
     app.run(debug=True)
