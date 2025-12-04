@@ -23,11 +23,11 @@
     "edrian": {
         "name": "ed",
         "level": 2,
-        "experience": 35,
-        "health": 100,
+        "experience": 40,
+        "health": 95,
         "stress": 0,
         "created": "2025-11-21 17:58:38",
-        "last_updated": "2025-12-04 21:00:01",
+        "last_updated": "2025-12-04 21:17:27",
         "status": "happy",
         "choice": 2
     }
